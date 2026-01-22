@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sua Online | Tecnologia e Estilo</title>
+    
+    <!-- --- META TAGS OTIMIZADAS PARA REDES SOCIAIS --- -->
+    <meta name="description" content="Encontre os melhores produtos de tecnologia, moda e casa com preços exclusivos e entrega rápida para todo o Brasil.">
+    <meta name="keywords" content="loja online, tecnologia, moda, casa, gadgets, ecommerce, brasil">
+    <meta name="author" content="Sua Online">
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://suaonline.com.br/">
+    <meta property="og:title" content="Sua Online | Tecnologia e Estilo">
+    <meta property="og:description" content="Encontre os melhores produtos de tecnologia, moda e casa com preços exclusivos e entrega rápida para todo o Brasil.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://suaonline.com.br/">
+    <meta property="twitter:title" content="Sua Online | Tecnologia e Estilo">
+    <meta property="twitter:description" content="Encontre os melhores produtos de tecnologia, moda e casa com preços exclusivos e entrega rápida para todo o Brasil.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80">
+
+    <!-- --- FAVICON (Ícone da Aba) --- -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ícones FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 900: '#1e3a8a' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Animações e Utilitários */
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .slide-in-right { animation: slideInRight 0.3s ease-out; }
+        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+
+        .loader {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid #fff;
+            border-radius: 50%;
+            width: 20px; height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Timeline de Rastreamento */
+        .timeline-item { position: relative; padding-left: 2.5rem; border-left: 2px solid #e5e7eb; padding-bottom: 2.5rem; }
+        .timeline-item:last-child { border-left: none; padding-bottom: 0; }
+        .timeline-dot { position: absolute; left: -0.65rem; top: 0; width: 1.3rem; height: 1.3rem; border-radius: 50%; background: #fff; border: 4px solid #e5e7eb; transition: all 0.3s; }
+        .timeline-item.active .timeline-dot { border-color: #10b981; background: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2); }
+        .timeline-item.active { border-left-color: #10b981; }
+
+        /* Botão WhatsApp Pulsante */
+        .whatsapp-float {
+            position: fixed; bottom: 20px; left: 20px;
+            background-color: #25d366; color: #FFF;
+            border-radius: 50px; text-align: center;
+            font-size: 30px; box-shadow: 2px 2px 3px #999;
+            z-index: 100; padding: 10px; width: 60px; height: 60px;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); background-color: #20ba5a; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- Top Bar -->
+    <div class="bg-gray-900 text-white text-xs py-2 text-center font-medium tracking-wide relative z-50">
+        <span class="mr-4"><i class="fas fa-truck text-brand-500 mr-1"></i> FRETE GRÁTIS PARA TODO O BRASIL</span>
+        <span class="hidden sm:inline opacity-50">|</span>
+        <span class="ml-4 hidden sm:inline"><i class="fas fa-shield-alt text-brand-500 mr-1"></i> GARANTIA DE 30 DIAS</span>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky w-full z-40 top-0 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Logo & Mobile Toggle -->
+                <div class="flex items-center gap-4">
+                    <!-- Mobile Menu Button -->
+                    <button onclick="app.toggleMobileMenu()" class="md:hidden text-gray-600 hover:text-brand-600 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+
+                    <div class="flex-shrink-0 flex items-center cursor-pointer group" onclick="app.showPage('home')">
+                        <div class="w-8 h-8 bg-brand-600 text-white rounded-lg flex items-center justify-center mr-2 shadow-lg group-hover:bg-brand-500 transition">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <span class="font-bold text-xl tracking-tight text-gray-900">SUA<span class="text-brand-600">.ONLINE</span></span>
+                    </div>
+                    
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-600 ml-4">
+                        <a href="#" onclick="app.showPage('home')" class="hover:text-brand-600 transition">Início</a>
+                        <a href="#" onclick="app.scrollToSection('product-section')" class="hover:text-brand-600 transition">Produtos</a>
+                        <a href="#" onclick="app.scrollToSection('about-section')" class="hover:text-brand-600 transition">Sobre Nós</a>
+                        <a href="#" onclick="app.showPage('track')" class="hover:text-brand-600 transition flex items-center gap-1"><i class="fas fa-search"></i> Rastrear</a>
+                    </div>
+                </div>
+                
+                <!-- Cart Icon -->
+                <div class="relative cursor-pointer p-2 hover:bg-gray-100 rounded-full transition group" onclick="app.toggleCart()">
+                    <i class="fas fa-shopping-cart text-gray-700 text-xl group-hover:text-brand-600 transition"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-brand-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full hidden shadow-sm border-2 border-white">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Dropdown) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 absolute w-full left-0 top-16 shadow-lg z-30 fade-in">
+            <div class="px-4 py-3 space-y-3">
+                <a href="#" onclick="app.showPage('home'); app.toggleMobileMenu()" class="block text-gray-600 hover:text-brand-600 font-medium p-2 rounded hover:bg-gray-50"><i class="fas fa-home w-6 text-center"></i> Início</a>
+                <a href="#" onclick="app.scrollToSection('product-section'); app.toggleMobileMenu()" class="block text-gray-600 hover:text-brand-600 font-medium p-2 rounded hover:bg-gray-50"><i class="fas fa-box-open w-6 text-center"></i> Produtos</a>
+                <a href="#" onclick="app.scrollToSection('about-section'); app.toggleMobileMenu()" class="block text-gray-600 hover:text-brand-600 font-medium p-2 rounded hover:bg-gray-50"><i class="fas fa-info-circle w-6 text-center"></i> Sobre Nós</a>
+                <a href="#" onclick="app.showPage('track'); app.toggleMobileMenu()" class="block text-gray-600 hover:text-brand-600 font-medium p-2 rounded hover:bg-gray-50"><i class="fas fa-search w-6 text-center"></i> Rastrear Pedido</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-6 pb-16 px-4 max-w-7xl mx-auto w-full">
+        
+        <!-- PÁGINA: HOME -->
+        <div id="page-home" class="fade-in">
+            
+            <!-- Hero Banner -->
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl mb-12 bg-gray-900 h-64 md:h-96 flex items-center group">
+                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition duration-1000">
+                <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent"></div>
+                <div class="relative z-10 p-6 md:p-12 max-w-2xl">
+                    <span class="inline-block bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">Lançamento</span>
+                    <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">Sua Loja,<br>Seu Estilo.</h1>
+                    <p class="text-gray-300 mb-8 text-sm md:text-lg max-w-lg">Encontre os melhores produtos de tecnologia, moda e casa com preços exclusivos e entrega rápida para todo o Brasil.</p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="app.scrollToSection('product-section')" class="bg-brand-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-700 transition shadow-lg inline-flex items-center justify-center gap-2">
+                            Ver Produtos
+                        </button>
+                        <button onclick="app.scrollToSection('about-section')" class="bg-white/10 backdrop-blur text-white border border-white/30 px-6 py-3 rounded-lg font-bold hover:bg-white/20 transition inline-flex items-center justify-center">
+                            Saiba Mais
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros e Título -->
+            <div id="product-section" class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 pt-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">Nossos Produtos</h2>
+                    <p class="text-gray-500 text-sm mt-1">Explore nossa seleção exclusiva.</p>
+                </div>
+                
+                <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+                    <button onclick="app.filterProducts('all')" class="filter-btn active px-5 py-2 rounded-full text-sm font-medium bg-gray-800 text-white shadow-md transition whitespace-nowrap">Todos</button>
+                    <button onclick="app.filterProducts('Tech')" class="filter-btn px-5 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:border-brand-500 hover:text-brand-600 transition whitespace-nowrap">Tech</button>
+                    <button onclick="app.filterProducts('Moda')" class="filter-btn px-5 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:border-brand-500 hover:text-brand-600 transition whitespace-nowrap">Moda</button>
+                    <button onclick="app.filterProducts('Casa')" class="filter-btn px-5 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:border-brand-500 hover:text-brand-600 transition whitespace-nowrap">Casa</button>
+                    <button onclick="app.filterProducts('Gamer')" class="filter-btn px-5 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:border-brand-500 hover:text-brand-600 transition whitespace-nowrap">Gamer</button>
+                </div>
+            </div>
+
+            <!-- Grid de Produtos -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-16">
+                <!-- JS Render -->
+            </div>
+
+            <!-- Seção Sobre Nós (Informações) -->
+            <div id="about-section" class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100 flex flex-col md:flex-row gap-12 items-center">
+                <div class="md:w-1/2">
+                    <span class="text-brand-600 font-bold uppercase tracking-wider text-sm mb-2 block">Quem Somos</span>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Sua Online: Conectando Você ao Melhor.</h2>
+                    <p class="text-gray-600 mb-4 leading-relaxed">
+                        Fundada com a missão de democratizar o acesso a produtos premium, a <strong>Sua Online</strong> se destaca pela curadoria rigorosa e pelo atendimento humanizado. Não somos apenas um e-commerce; somos seus parceiros na busca por qualidade e inovação.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div>
+                            <h4 class="font-bold text-xl text-gray-900 mb-1">50k+</h4>
+                            <p class="text-sm text-gray-500">Clientes Satisfeitos</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl text-gray-900 mb-1">24h</h4>
+                            <p class="text-sm text-gray-500">Suporte Dedicado</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative">
+                    <div class="absolute inset-0 bg-brand-600 rounded-2xl transform rotate-3 opacity-10"></div>
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="Equipe Sua Online" class="rounded-2xl shadow-lg relative z-10 w-full">
+                </div>
+            </div>
+        </div>
+
+        <!-- PÁGINA: RASTREAMENTO -->
+        <div id="page-track" class="hidden fade-in max-w-lg mx-auto w-full pt-10">
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-brand-600 text-2xl">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900">Rastrear Pedido</h2>
+                    <p class="text-gray-500 text-sm mt-1">Acompanhe cada etapa da sua entrega.</p>
+                </div>
+                
+                <form onsubmit="app.trackOrder(event)" class="mb-8 relative">
+                    <input type="text" name="orderId" placeholder="Digite seu código (Ex: #SO-1234)" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition uppercase tracking-widest font-mono text-center text-lg" required>
+                    <button type="submit" class="w-full mt-4 bg-gray-900 text-white py-3 rounded-xl hover:bg-gray-800 font-bold transition shadow-lg">
+                        Buscar Pedido
+                    </button>
+                </form>
+
+                <div id="track-result" class="hidden animate-pulse">
+                    <div class="border-t border-gray-100 pt-6">
+                        <div class="flex justify-between items-end mb-8">
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Status Atual</p>
+                                <h3 class="text-xl font-bold text-brand-600">Em Trânsito</h3>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-gray-400">Pedido</p>
+                                <p class="font-mono font-bold text-gray-800" id="track-id-display">#0000</p>
+                            </div>
+                        </div>
+
+                        <div class="pl-2">
+                            <div class="timeline-item active">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-sm text-gray-800">Pedido Confirmado</h4>
+                                <p class="text-xs text-gray-500 mt-1">Pagamento aprovado com sucesso.</p>
+                            </div>
+                            <div class="timeline-item active">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-sm text-gray-800">Preparação</h4>
+                                <p class="text-xs text-gray-500 mt-1">Nota fiscal emitida e pacote embalado.</p>
+                            </div>
+                            <div class="timeline-item active">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-sm text-gray-800">Em Transporte</h4>
+                                <p class="text-xs text-gray-500 mt-1">A caminho do centro de distribuição local.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-sm text-gray-400">Saiu para Entrega</h4>
+                                <p class="text-xs text-gray-400 mt-1">O entregador está a caminho.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-sm text-gray-400">Entregue</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="track-error" class="hidden mt-4 p-4 bg-red-50 text-red-600 rounded-xl text-center text-sm border border-red-100">
+                    <i class="fas fa-times-circle mr-2"></i> Pedido não encontrado. Verifique o código.
+                </div>
+            </div>
+        </div>
+
+        <!-- PÁGINA: CHECKOUT -->
+        <div id="page-checkout" class="hidden fade-in max-w-5xl mx-auto w-full">
+            <button onclick="app.showPage('home')" class="mb-6 text-gray-500 hover:text-brand-600 text-sm font-medium flex items-center gap-2 transition">
+                <i class="fas fa-arrow-left"></i> Continuar Comprando
+            </button>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Coluna Esquerda: Formulário -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 mb-6">
+                        <h2 class="text-xl font-bold mb-6 flex items-center text-gray-900">
+                            <span class="w-8 h-8 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-sm mr-3">1</span>
+                            Dados de Entrega
+                        </h2>
+                        <form id="checkout-form" onsubmit="app.processOrder(event)">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div class="md:col-span-2">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1 ml-1">Nome Completo</label>
+                                    <input type="text" name="nome" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-brand-500 focus:bg-white outline-none transition" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1 ml-1">CEP</label>
+                                    <input type="text" name="cep" placeholder="00000-000" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-brand-500 focus:bg-white outline-none transition" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1 ml-1">Cidade / UF</label>
+                                    <input type="text" name="cidade" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-brand-500 focus:bg-white outline-none transition" required>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1 ml-1">Endereço Completo</label>
+                                    <input type="text" name="endereco" placeholder="Rua, Número, Bairro, Complemento" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-brand-500 focus:bg-white outline-none transition" required>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold flex items-center text-gray-900">
+                                <span class="w-8 h-8 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-sm mr-3">2</span>
+                                Pagamento
+                            </h2>
+                            <div class="flex gap-2 text-xl text-gray-400">
+                                <i class="fab fa-cc-visa hover:text-blue-800"></i>
+                                <i class="fab fa-cc-mastercard hover:text-red-600"></i>
+                                <i class="fab fa-cc-amex hover:text-blue-500"></i>
+                            </div>
+                        </div>
+
+                        <!-- Card Simulado -->
+                        <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl text-white mb-6 shadow-lg relative overflow-hidden group">
+                            <div class="absolute -right-10 -top-10 w-40 h-40 bg-white opacity-5 rounded-full blur-2xl group-hover:opacity-10 transition"></div>
+                            <div class="flex justify-between items-start mb-8">
+                                <i class="fas fa-sim-card text-yellow-500 text-3xl opacity-80"></i>
+                                <i class="fas fa-wifi rotate-90 opacity-50"></i>
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-[10px] uppercase opacity-60 tracking-widest">Número do Cartão</label>
+                                <input type="password" name="card_number" placeholder="0000 0000 0000 0000" class="bg-transparent text-xl tracking-widest w-full outline-none placeholder-gray-600 font-mono" maxlength="19" required>
+                            </div>
+                            <div class="flex justify-between gap-4">
+                                <div>
+                                    <label class="text-[10px] uppercase opacity-60 tracking-widest">Titular</label>
+                                    <input type="text" placeholder="NOME COMO NO CARTÃO" class="bg-transparent text-sm w-full outline-none placeholder-gray-600 uppercase" required>
+                                </div>
+                                <div class="w-20">
+                                    <label class="text-[10px] uppercase opacity-60 tracking-widest">Validade</label>
+                                    <input type="text" name="card_expiry" placeholder="MM/AA" class="bg-transparent text-sm w-full outline-none placeholder-gray-600" maxlength="5" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1 ml-1">CVV</label>
+                                <div class="relative">
+                                    <input type="password" name="card_cvv" placeholder="123" maxlength="4" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-brand-500 outline-none transition" required>
+                                    <i class="fas fa-lock absolute right-3 top-3.5 text-gray-400 text-xs"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-end">
+                                <div class="text-xs text-green-600 bg-green-50 px-3 py-3 rounded-lg w-full flex items-center justify-center font-medium border border-green-100">
+                                    <i class="fas fa-shield-check mr-2 text-lg"></i> Criptografia 256-bit
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btn-pay" class="w-full bg-brand-600 text-white font-bold py-4 rounded-xl hover:bg-brand-700 transition shadow-lg hover:shadow-brand-500/30 transform hover:-translate-y-0.5 active:translate-y-0 flex justify-center items-center gap-3">
+                            <span>Confirmar Pagamento</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: Resumo do Pedido -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-24">
+                        <h3 class="font-bold text-lg mb-4 text-gray-900">Resumo do Pedido</h3>
+                        <div id="checkout-items" class="space-y-3 mb-6 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                            <!-- JS Inject -->
+                        </div>
+                        
+                        <div class="space-y-2 border-t border-gray-100 pt-4 text-sm text-gray-600">
+                            <div class="flex justify-between">
+                                <span>Subtotal</span>
+                                <span id="checkout-subtotal">R$ 0,00</span>
+                            </div>
+                            <div class="flex justify-between text-green-600">
+                                <span>Frete</span>
+                                <span class="font-medium">Grátis</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-100 pt-4 mt-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-gray-900">Total</span>
+                                <span id="checkout-total" class="font-bold text-2xl text-brand-600">R$ 0,00</span>
+                            </div>
+                            <p class="text-xs text-gray-400 text-right">Em até 10x sem juros</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-center">
+                        <p class="text-xs text-gray-400 mb-2"><i class="fas fa-lock text-gray-300"></i> Compra Protegida</p>
+                        <div class="flex justify-center gap-2 opacity-50 grayscale hover:grayscale-0 transition duration-500">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastercard_2019_logo.svg/64px-Mastercard_2019_logo.svg.png" class="h-6">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/64px-Visa_Inc._logo.svg.png" class="h-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PÁGINA: SUCESSO -->
+        <div id="page-success" class="hidden fade-in text-center py-12 max-w-lg mx-auto w-full px-4">
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-400 to-brand-500"></div>
+                
+                <div class="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-check text-4xl text-green-500"></i>
+                </div>
+                
+                <h2 class="text-3xl font-bold text-gray-900 mb-2">Sucesso!</h2>
+                <p class="text-gray-500 mb-8">Seu pagamento foi confirmado e seu pedido já está sendo processado.</p>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl border border-dashed border-gray-300 mb-8 relative group cursor-pointer" onclick="app.copyToClipboard(this.querySelector('span').innerText)">
+                    <p class="text-xs text-gray-400 uppercase font-bold tracking-widest mb-2">Código do Pedido</p>
+                    <span id="order-id" class="text-4xl font-mono font-bold text-gray-800 tracking-wider">#0000</span>
+                    <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition flex items-center justify-center rounded-2xl">
+                        <span class="text-xs font-bold bg-white px-2 py-1 rounded shadow">Copiar</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="app.showTrackFromSuccess()" class="w-full bg-brand-600 text-white py-3.5 rounded-xl font-bold hover:bg-brand-700 transition shadow-lg">
+                        Rastrear Entrega
+                    </button>
+                    <button onclick="app.resetStore()" class="w-full bg-white text-gray-600 border border-gray-200 py-3.5 rounded-xl font-medium hover:bg-gray-50 transition">
+                        Voltar para a Loja
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Profissional -->
+    <footer class="bg-white border-t border-gray-200 pt-16 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 bg-brand-600 text-white rounded-lg flex items-center justify-center">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <span class="font-bold text-xl text-gray-900">SUA ONLINE</span>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6">Sua parceira de confiança para as melhores compras online. Segurança, qualidade e preço justo.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-brand-600 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-brand-600 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-brand-600 hover:text-white transition"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4">Institucional</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" onclick="app.scrollToSection('about-section')" class="hover:text-brand-600 transition">Sobre Nós</a></li>
+                        <li><a href="#" class="hover:text-brand-600 transition">Trabalhe Conosco</a></li>
+                        <li><a href="#" class="hover:text-brand-600 transition">Blog de Novidades</a></li>
+                        <li><a href="#" class="hover:text-brand-600 transition">Termos de Uso</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4">Suporte</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-brand-600 transition">Central de Ajuda</a></li>
+                        <li><a href="#" class="hover:text-brand-600 transition">Política de Reembolso</a></li>
+                        <li><a href="#" onclick="app.showPage('track')" class="hover:text-brand-600 transition">Rastrear Pedido</a></li>
+                        <li><a href="#" class="hover:text-brand-600 transition">Fale Conosco</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4">Formas de Pagamento</h4>
+                    <div class="grid grid-cols-3 gap-2 opacity-60">
+                         <div class="bg-gray-100 h-8 rounded flex items-center justify-center" title="Visa"><i class="fab fa-cc-visa text-lg"></i></div>
+                         <div class="bg-gray-100 h-8 rounded flex items-center justify-center" title="Mastercard"><i class="fab fa-cc-mastercard text-lg"></i></div>
+                         <div class="bg-gray-100 h-8 rounded flex items-center justify-center" title="Amex"><i class="fab fa-cc-amex text-lg"></i></div>
+                         <div class="bg-gray-100 h-8 rounded flex items-center justify-center" title="Boleto"><i class="fas fa-barcode"></i></div>
+                         <div class="bg-gray-100 h-8 rounded flex items-center justify-center" title="Pix"><i class="fas fa-qrcode"></i></div>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-xs text-gray-500 mb-1">Certificados de Segurança</p>
+                        <div class="flex gap-2 text-gray-400">
+                            <i class="fas fa-lock"></i>
+                            <i class="fas fa-user-shield"></i>
+                            <span class="text-xs">SSL Protegido</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
+                <p>&copy; 2024 Sua Online. Todos os direitos reservados.</p>
+                <p class="flex items-center gap-1"><i class="fas fa-bolt text-yellow-500"></i> Powered by Google Apps Script</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botão Flutuante WhatsApp -->
+    <a href="#" class="whatsapp-float" title="Fale conosco no WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Modal de Imagem (Lightbox) -->
+    <div id="image-modal" class="fixed inset-0 z-[80] hidden" onclick="app.closeImage()">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop"></div>
+        <div class="relative z-10 flex items-center justify-center h-full p-4">
+            <img id="modal-img" src="" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl transform scale-90 opacity-0 transition-all duration-300" onclick="event.stopPropagation()">
+            <button class="absolute top-4 right-4 text-white text-4xl hover:text-brand-500 transition focus:outline-none">&times;</button>
+        </div>
+    </div>
+
+    <!-- Sidebar Carrinho (Slide Over Moderno) -->
+    <div id="cart-overlay" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 hidden transition-opacity" onclick="app.toggleCart()"></div>
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-[60] flex flex-col">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-white">
+            <h2 class="font-bold text-xl text-gray-900">Seu Carrinho</h2>
+            <button onclick="app.toggleCart()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center transition text-gray-500"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-6">
+            <!-- Items rendered via JS -->
+        </div>
+
+        <div class="p-6 border-t border-gray-100 bg-gray-50">
+            <div class="flex justify-between font-bold text-xl mb-6 text-gray-900">
+                <span>Total</span>
+                <span id="cart-total">R$ 0,00</span>
+            </div>
+            <button onclick="app.goToCheckout()" id="btn-checkout" class="w-full bg-brand-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-brand-700 hover:shadow-brand-500/30 transition disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2 transform active:scale-[0.98]" disabled>
+                <span>Finalizar Compra</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-6 right-6 bg-white text-gray-800 px-6 py-4 rounded-xl shadow-2xl transform translate-x-full transition-transform duration-300 z-[70] flex items-center gap-4 border border-gray-100">
+        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-500 flex-shrink-0">
+            <i class="fas fa-check"></i>
+        </div>
+        <div>
+            <h4 class="font-bold text-sm">Sucesso</h4>
+            <span id="toast-msg" class="text-sm text-gray-500">Item adicionado ao carrinho</span>
+        </div>
+    </div>
+
+    <script>
+        // --- DADOS DO CATÁLOGO EXPANDIDO ---
+        const products = [
+            // Tech
+            { id: 101, name: "Fone NoiseCancel Pro", price: 459.90, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80", cat: "Tech", badge: "Mais Vendido" },
+            { id: 102, name: "Smartwatch Elite", price: 899.00, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80", cat: "Tech" },
+            { id: 103, name: "Teclado Mech RGB", price: 320.00, img: "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=600&q=80", cat: "Gamer" },
+            { id: 104, name: "Câmera Instax Mini", price: 449.90, img: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80", cat: "Tech" },
+            
+            // Moda
+            { id: 201, name: "Tênis Urban Runner", price: 299.90, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80", cat: "Moda" },
+            { id: 202, name: "Mochila Anti-furto", price: 189.50, img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80", cat: "Moda", badge: "-20% OFF" },
+            { id: 203, name: "Óculos Aviator", price: 159.00, img: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=600&q=80", cat: "Moda" },
+            { id: 204, name: "Jaqueta Bomber", price: 349.00, img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80", cat: "Moda" },
+
+            // Casa & Gamer
+            { id: 301, name: "Controle Wireless", price: 259.90, img: "https://images.unsplash.com/photo-1592840496694-26d035b52b48?auto=format&fit=crop&w=600&q=80", cat: "Gamer" },
+            { id: 302, name: "Cafeteira Express", price: 599.00, img: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=600&q=80", cat: "Casa" },
+            { id: 303, name: "Luminária Smart", price: 129.90, img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=600&q=80", cat: "Casa" },
+            { id: 304, name: "Vaso Decorativo", price: 89.90, img: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&q=80", cat: "Casa" }
+        ];
+
+        // --- APP LOGIC ---
+        const app = {
+            cart: [],
+            // Alterado para 'sua_online' para evitar conflito com dados antigos
+            orders: JSON.parse(localStorage.getItem('gas_sua_online_orders')) || [],
+            currentCategory: 'all',
+            
+            init() {
+                this.renderProducts();
+                this.updateCartUI();
+            },
+
+            // --- MENU MOBILE TOGGLE ---
+            toggleMobileMenu() {
+                const menu = document.getElementById('mobile-menu');
+                if (menu.classList.contains('hidden')) {
+                    menu.classList.remove('hidden');
+                } else {
+                    menu.classList.add('hidden');
+                }
+            },
+
+            // Navegação SPA
+            showPage(pageId) {
+                const pages = ['home', 'checkout', 'success', 'track'];
+                pages.forEach(p => {
+                    const el = document.getElementById(`page-${p}`);
+                    if(el) el.classList.add('hidden');
+                });
+                
+                const target = document.getElementById(`page-${pageId}`);
+                if(target) {
+                    target.classList.remove('hidden');
+                    target.classList.remove('fade-in');
+                    void target.offsetWidth; 
+                    target.classList.add('fade-in');
+                }
+                
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                
+                // Fechar menu mobile se estiver aberto
+                document.getElementById('mobile-menu').classList.add('hidden');
+
+                if(pageId === 'track') {
+                    document.getElementById('track-result').classList.add('hidden');
+                    document.getElementById('track-error').classList.add('hidden');
+                    document.querySelector('#page-track form').reset();
+                    setTimeout(() => document.querySelector('#page-track input').focus(), 500);
+                }
+            },
+
+            // Lightbox de Imagem
+            openImage(src, alt) {
+                const modal = document.getElementById('image-modal');
+                const modalImg = document.getElementById('modal-img');
+                const backdrop = document.getElementById('modal-backdrop');
+                
+                modalImg.src = src;
+                modalImg.alt = alt;
+                modal.classList.remove('hidden');
+                
+                // Pequeno delay para permitir a transição CSS
+                setTimeout(() => {
+                    backdrop.classList.remove('opacity-0');
+                    modalImg.classList.remove('scale-90', 'opacity-0');
+                    modalImg.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            },
+
+            closeImage() {
+                const modal = document.getElementById('image-modal');
+                const modalImg = document.getElementById('modal-img');
+                const backdrop = document.getElementById('modal-backdrop');
+
+                backdrop.classList.add('opacity-0');
+                modalImg.classList.remove('scale-100', 'opacity-100');
+                modalImg.classList.add('scale-90', 'opacity-0');
+
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300); // Espera a animação de saída terminar
+            },
+
+            // Scroll suave para seções na home
+            scrollToSection(sectionId) {
+                if(document.getElementById('page-home').classList.contains('hidden')) {
+                    this.showPage('home');
+                    setTimeout(() => {
+                        document.getElementById(sectionId)?.scrollIntoView({behavior: 'smooth'});
+                    }, 100);
+                } else {
+                    document.getElementById(sectionId)?.scrollIntoView({behavior: 'smooth'});
+                }
+                
+                // Fechar menu mobile
+                document.getElementById('mobile-menu').classList.add('hidden');
+            },
+
+            // Filtro de Categorias
+            filterProducts(cat) {
+                this.currentCategory = cat;
+                
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    if ((cat === 'all' && btn.innerText === 'Todos') || btn.innerText.includes(cat)) {
+                        btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
+                        btn.classList.add('bg-gray-800', 'text-white', 'border-transparent', 'shadow-md');
+                    } else {
+                        btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+                        btn.classList.remove('bg-gray-800', 'text-white', 'border-transparent', 'shadow-md', 'active');
+                    }
+                });
+
+                this.renderProducts();
+            },
+
+            renderProducts() {
+                const container = document.getElementById('product-grid');
+                const filtered = this.currentCategory === 'all' 
+                    ? products 
+                    : products.filter(p => p.cat === this.currentCategory);
+
+                container.innerHTML = filtered.map(p => `
+                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full fade-in">
+                        <div class="relative h-56 overflow-hidden bg-gray-100 cursor-zoom-in" onclick="app.openImage('${p.img}', '${p.name}')">
+                            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                            
+                            ${p.badge ? `<span class="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-md uppercase tracking-wider">${p.badge}</span>` : ''}
+                            
+                            <button onclick="event.stopPropagation(); app.addToCart(${p.id})" class="absolute bottom-3 right-3 bg-white text-gray-900 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition duration-300 hover:bg-brand-600 hover:text-white z-10">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col">
+                            <div class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">${p.cat}</div>
+                            <h3 class="font-bold text-gray-900 mb-2 leading-tight text-lg group-hover:text-brand-600 transition">${p.name}</h3>
+                            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+                                <div class="flex flex-col">
+                                    <span class="text-xs text-gray-400 line-through">R$ ${(p.price * 1.2).toFixed(2).replace('.', ',')}</span>
+                                    <span class="text-xl font-bold text-gray-900">R$ ${p.price.toFixed(2).replace('.', ',')}</span>
+                                </div>
+                                <div class="text-xs text-green-600 font-medium bg-green-50 px-2 py-1 rounded">
+                                    10x s/ juros
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                if (filtered.length === 0) {
+                    container.innerHTML = `<div class="col-span-4 text-center py-20 text-gray-400">Nenhum produto encontrado nesta categoria.</div>`;
+                }
+            },
+
+            addToCart(id) {
+                const product = products.find(p => p.id === id);
+                const existingItem = this.cart.find(item => item.id === id);
+                
+                if (existingItem) existingItem.qty++;
+                else this.cart.push({ ...product, qty: 1 });
+                
+                this.updateCartUI();
+                this.showToast(`${product.name} adicionado!`);
+            },
+
+            removeFromCart(id) {
+                this.cart = this.cart.filter(item => item.id !== id);
+                this.updateCartUI();
+            },
+
+            changeQty(id, delta) {
+                const item = this.cart.find(i => i.id === id);
+                if (item) {
+                    item.qty += delta;
+                    if (item.qty <= 0) this.removeFromCart(id);
+                    else this.updateCartUI();
+                }
+            },
+
+            updateCartUI() {
+                const count = this.cart.reduce((sum, item) => sum + item.qty, 0);
+                const badge = document.getElementById('cart-count');
+                badge.innerText = count;
+                badge.classList.toggle('hidden', count === 0);
+
+                const container = document.getElementById('cart-items-container');
+                const totalEl = document.getElementById('cart-total');
+                const btnCheckout = document.getElementById('btn-checkout');
+
+                if (this.cart.length === 0) {
+                    container.innerHTML = `
+                        <div class="flex flex-col items-center justify-center h-full text-gray-400">
+                            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-shopping-basket text-3xl opacity-30"></i>
+                            </div>
+                            <p class="font-medium">Seu carrinho está vazio.</p>
+                            <button onclick="app.toggleCart()" class="mt-4 text-brand-600 text-sm font-bold hover:underline">Continuar comprando</button>
+                        </div>`;
+                    totalEl.innerText = "R$ 0,00";
+                    btnCheckout.disabled = true;
+                    return;
+                }
+
+                let total = 0;
+                container.innerHTML = this.cart.map(item => {
+                    const itemTotal = item.price * item.qty;
+                    total += itemTotal;
+                    return `
+                        <div class="flex items-start gap-4 bg-gray-50 p-3 rounded-xl border border-gray-100 slide-in-right">
+                            <img src="${item.img}" class="w-16 h-16 rounded-lg object-cover border border-gray-200 bg-white">
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-sm text-gray-900 truncate mb-1">${item.name}</h4>
+                                <div class="text-gray-500 text-xs mb-2">${item.cat}</div>
+                                <div class="flex items-center justify-between">
+                                    <div class="text-brand-600 font-bold text-sm">R$ ${itemTotal.toFixed(2).replace('.', ',')}</div>
+                                    <div class="flex items-center bg-white rounded-lg border border-gray-200 shadow-sm h-7">
+                                        <button onclick="app.changeQty(${item.id}, -1)" class="w-7 h-full flex items-center justify-center text-gray-400 hover:text-red-500 transition"><i class="fas fa-minus text-[10px]"></i></button>
+                                        <span class="text-xs font-bold w-6 text-center text-gray-800 border-x border-gray-100 h-full flex items-center justify-center">${item.qty}</span>
+                                        <button onclick="app.changeQty(${item.id}, 1)" class="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-500 transition"><i class="fas fa-plus text-[10px]"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                totalEl.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+                btnCheckout.disabled = false;
+            },
+
+            toggleCart() {
+                const sidebar = document.getElementById('cart-sidebar');
+                const overlay = document.getElementById('cart-overlay');
+                const isClosed = sidebar.classList.contains('translate-x-full');
+                
+                if (isClosed) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            },
+
+            goToCheckout() {
+                this.toggleCart();
+                this.showPage('checkout');
+                
+                const itemsDiv = document.getElementById('checkout-items');
+                const subtotalDiv = document.getElementById('checkout-subtotal');
+                const totalDiv = document.getElementById('checkout-total');
+                let total = 0;
+
+                itemsDiv.innerHTML = this.cart.map(item => {
+                    const iTotal = item.price * item.qty;
+                    total += iTotal;
+                    return `
+                    <div class="flex gap-3 py-2">
+                        <div class="w-12 h-12 rounded bg-gray-100 overflow-hidden flex-shrink-0">
+                             <img src="${item.img}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1">
+                             <div class="flex justify-between text-sm">
+                                <span class="font-medium text-gray-800 line-clamp-1">${item.name}</span> 
+                                <span class="font-bold">R$ ${iTotal.toFixed(2).replace('.', ',')}</span>
+                             </div>
+                             <div class="text-xs text-gray-500 mt-1">Qtd: ${item.qty}</div>
+                        </div>
+                    </div>`;
+                }).join('');
+                
+                const formatted = `R$ ${total.toFixed(2).replace('.', ',')}`;
+                subtotalDiv.innerText = formatted;
+                totalDiv.innerText = formatted;
+            },
+
+            processOrder(e) {
+                e.preventDefault();
+                const btn = document.getElementById('btn-pay');
+                const originalContent = btn.innerHTML;
+                
+                btn.disabled = true;
+                btn.innerHTML = `<div class="loader mr-3"></div> Processando...`;
+
+                // Gerar ID do Pedido (PREFIXO SO = Sua Online)
+                const chars = '0123456789';
+                let orderId = '#SO-';
+                for(let i=0; i<4; i++) orderId += chars.charAt(Math.floor(Math.random() * chars.length));
+                
+                const newOrder = {
+                    id: orderId,
+                    date: new Date().toLocaleString('pt-BR'),
+                    items: [...this.cart],
+                    total: this.cart.reduce((a,b) => a + (b.price * b.qty), 0),
+                    status: 'Recebido'
+                };
+
+                setTimeout(() => {
+                    // LocalStorage Key Atualizada
+                    this.orders.push(newOrder);
+                    localStorage.setItem('gas_sua_online_orders', JSON.stringify(this.orders));
+
+                    btn.disabled = false;
+                    btn.innerHTML = originalContent;
+                    
+                    document.getElementById('order-id').innerText = orderId;
+                    this.lastOrderId = orderId;
+                    this.cart = [];
+                    this.updateCartUI();
+                    this.showPage('success');
+                }, 3000);
+            },
+
+            trackOrder(e) {
+                if(e) e.preventDefault();
+                const input = document.querySelector('input[name="orderId"]');
+                const id = input.value.trim().toUpperCase();
+                
+                const order = this.orders.find(o => o.id === id);
+                const resultDiv = document.getElementById('track-result');
+                const errorDiv = document.getElementById('track-error');
+                
+                if (order) {
+                    errorDiv.classList.add('hidden');
+                    resultDiv.classList.remove('hidden');
+                    document.getElementById('track-id-display').innerText = order.id;
+                    resultDiv.classList.remove('animate-pulse');
+                    void resultDiv.offsetWidth;
+                    resultDiv.classList.add('animate-pulse');
+                } else {
+                    resultDiv.classList.add('hidden');
+                    errorDiv.classList.remove('hidden');
+                }
+            },
+            
+            showTrackFromSuccess() {
+                if(this.lastOrderId) {
+                    this.showPage('track');
+                    const input = document.querySelector('input[name="orderId"]');
+                    input.value = this.lastOrderId;
+                    this.trackOrder();
+                }
+            },
+
+            resetStore() {
+                document.getElementById('checkout-form').reset();
+                this.showPage('home');
+            },
+
+            showToast(msg) {
+                const toast = document.getElementById('toast');
+                document.getElementById('toast-msg').innerText = msg;
+                toast.classList.remove('translate-x-full');
+                setTimeout(() => toast.classList.add('translate-x-full'), 3000);
+            },
+
+            copyToClipboard(text) {
+                navigator.clipboard.writeText(text);
+                this.showToast("Código copiado!");
+            }
+        };
+
+        // Init
+        app.init();
+    </script>
+</body>
+</html>
